@@ -1,6 +1,6 @@
 {
   "name": "react-script-async",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A dead simple way to load <script /> tags through render props",
   "main": "lib/index.js",
   "scripts": {
