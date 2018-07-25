@@ -15,13 +15,13 @@ const SCRIPT_PROP_TYPES = [
 ];
 
 class Script extends React.Component {
-  state = { success: false, error: false };
+  state = { loaded: false, error: false };
   onLoad = e => {
-    this.setState({ success: true, error: false });
+    this.setState({ loaded: true, error: false });
     this.props.onLoad(e);
   };
   onError = e => {
-    this.setState({ success: false, error: true });
+    this.setState({ loaded: false, error: true });
     this.props.onError(e);
   };
   componentDidMount() {

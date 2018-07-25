@@ -24,7 +24,7 @@ import Script from 'react-script-async';
 
 export default () => (
   <Script src="some_script.js">
-    {({ success }) => (success ? <div>hurray !</div> : <div>Loading...</div>)}
+    {({ loaded }) => (loaded ? <div>hurray !</div> : <div>Loading...</div>)}
   </Script>
 );
 ```
