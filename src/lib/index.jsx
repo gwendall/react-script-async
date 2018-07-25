@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SCRIPT_PROP_TYPES = [
   'async',
@@ -13,26 +14,24 @@ const SCRIPT_PROP_TYPES = [
   'nonce',
 ];
 
-const DEFAULT_PROPS = {
-  async: true,
-  type: 'text/javascript',
-};
-
 class Script extends React.Component {
-  static defaultProps = DEFAULT_PROPS;
   state = { success: false, error: false };
-  onSuccess = () => this.setState({ success: true, error: false });
-  onError = () => this.setState({ success: false, error: true });
+  onLoad = e => {
+    this.setState({ success: true, error: false });
+    this.props.onLoad(e);
+  };
+  onError = e => {
+    this.setState({ success: false, error: true });
+    this.props.onError(e);
+  };
   componentDidMount() {
-    const { src } = this.props;
-    if (!src) console.log('Please provide a prop src to <Script />');
-    const exists = !!document.querySelector(`script[src="${src}"]`);
-    if (exists) return this.setState({ success: true, error: false });
+    const exists = !!document.querySelector(`script[src="${this.props.src}"]`);
+    if (exists) return this.onLoad();
     const script = document.createElement('script');
     Object.keys(this.props).forEach(k => {
       if (SCRIPT_PROP_TYPES.includes(k)) script[k] = this.props[k];
     });
-    script.addEventListener('load', this.onSuccess);
+    script.addEventListener('load', this.onLoad);
     script.addEventListener('error', this.onError);
     document.body.appendChild(script);
   }
@@ -40,5 +39,15 @@ class Script extends React.Component {
     return this.props.children({ ...this.state });
   }
 }
+
+Script.defaultProps = {
+  async: true,
+  type: 'text/javascript',
+  onLoad: e => null,
+  onError: e => null,
+};
+Script.propTypes = {
+  src: PropTypes.string.isRequired,
+};
 
 export default Script;
