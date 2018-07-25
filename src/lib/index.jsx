@@ -33,7 +33,7 @@ class Script extends React.Component {
     });
     script.addEventListener('load', this.onLoad);
     script.addEventListener('error', this.onError);
-    document.body.appendChild(script);
+    document.getElementsByTagName('head')[0].appendChild(script);
   }
   render() {
     return this.props.children({ ...this.state });
